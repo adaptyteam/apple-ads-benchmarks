@@ -1,0 +1,8 @@
+metric,category,geo,segment,stat,value,unit,n,period,source,note
+cpi,all,global,all,median,0.51,usd,,2025,report-2026,Headline figure from the public report page
+cpi,all,global,all,mean_blended,1.34,usd,,2025,report-2026,Blended average across all markets; the gap to the median is the market skew
+cpi,all,US,all,mean,2.51,usd,,2025,report-2026,Headline figure; US is the expensive end of the range
+cpi,utilities,global,all,median,TODO,usd,,2025,report-2026,Extract from source report
+cpi,health-fitness,global,all,median,TODO,usd,,2025,report-2026,Extract from source report
+cpi,photo-video,global,all,median,TODO,usd,,2025,report-2026,Extract from source report
+cpi,education,global,all,median,TODO,usd,,2025,report-2026,Extract from source report

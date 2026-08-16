@@ -1,0 +1,17 @@
+{
+  "vintage": "2026",
+  "report": "Apple Ads benchmarks 2026: CPI & CR by niche",
+  "report_url": "https://adapty.io/apple-ads-for-subscription-apps/",
+  "data_period": "2025 campaigns",
+  "published": "2026",
+  "sample": {
+    "apps": "8000+",
+    "ad_groups": "1000000+",
+    "countries": 90,
+    "sub_niches": 59
+  },
+  "publisher": "Adapty",
+  "extraction_status": "partial",
+  "extraction_note": "Headline figures transcribed from the public report page. The per-niche and per-country tables still need extracting from source/ into the CSVs — every row with value=TODO is unextracted.",
+  "min_sample_for_verdict": 100
+}

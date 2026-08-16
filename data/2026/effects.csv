@@ -1,0 +1,4 @@
+metric,category,geo,segment,stat,value,unit,n,period,source,note
+custom_product_page_install_lift,all,global,all,mean,23,percent,,2025,report-2026,"Custom product pages increase installs by 23%"
+apple_ads_conversion_advantage,all,global,vs_other_paid,range_low,2.0,ratio,,2025,report-2026,"Apple Ads converts 2-2.5x better than other paid channels"
+apple_ads_conversion_advantage,all,global,vs_other_paid,range_high,2.5,ratio,,2025,report-2026,See range_low
