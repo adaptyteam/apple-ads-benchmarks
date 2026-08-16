@@ -1,102 +1,135 @@
 ---
 name: apple-ads-benchmarks
-description: Use when someone asks whether an Apple Ads or subscription number is normal — "is my CPI too high", "what's a good trial conversion rate for a fitness app", "how does our ROAS compare to other apps in our niche", "what should I expect to pay per install in Brazil" — or when a plan needs a category baseline for CPI, CPT, conversion, ROAS or LTV. Carries Adapty's Apple Ads benchmarks for subscription apps plus the normalization protocol that decides whether a comparison is meaningful at all. Needs no account, no CLI and no subscription.
+description: Use when someone asks whether an Apple Ads or subscription metric is unusual, what CPA/CPT/TTR/CR was published for a country, App Store genre, or niche, how Apple Ads subscriber economics compare with other paid channels, or what uplift the 2026 report measured for Custom Product Pages and keyword-matched paywalls. Also use when someone says CPI: this report publishes CPA per download, so the denominator must be clarified before comparison. Reads local CSV files and needs no account, CLI, network access, or subscription.
 license: MIT
 ---
 
 # Apple Ads benchmarks for subscription apps
 
-Category baselines for CPI, CPT, conversion, ROAS and LTV, from Adapty's aggregate data across
-subscription apps running Apple Ads.
+Use Adapty's 2026 report data without turning marginal aggregates into false precision.
 
-Reads local CSV files. Calls nothing, needs no account.
+Read local CSV files only. Call nothing and require no account.
 
-**Answer in the language the user writes in.** Everything here is English; translate your output,
-never these instructions.
+**Answer in the language the user writes in.** Keep these instructions and data keys in English.
 
-## The number is the easy part
+## Start with the metric definition
 
-Anyone can publish a table. The value of this skill is refusing to produce a comparison that does
-not mean anything — and most raw comparisons do not.
+Use the PDF terminology encoded in `data/2026/manifest.json`:
 
-**A benchmark comparison without normalization is misinformation.** "Your trial conversion is 8%,
-the benchmark is 12%, you are underperforming" is wrong far more often than it is right, because
-the two numbers are usually measuring different populations.
-
-Before stating any verdict, resolve these five. Each one moves the number enough to invert a
-conclusion:
-
-| Dimension | Why it inverts conclusions |
+| Metric | Definition |
 |---|---|
-| **Geo** | Acquisition cost swings by more than an order of magnitude between markets. A global median compared against US-only traffic is not a comparison |
-| **Price and trial length** | A 3-day trial and a 7-day trial produce different conversion rates by construction, before anything about the app matters |
-| **Traffic source** | Organic and paid convert differently, and paid channels differ from each other. Apple Ads traffic is not comparable to blended traffic |
-| **Cohort age** | Day-30 revenue against day-90 revenue is not a gap in performance, it is a gap in elapsed time |
-| **Paywall type** | Hard and soft paywalls have different denominators for every rate downstream |
+| `ttr` | taps / impressions |
+| `cr` | downloads / taps on the App Store product page |
+| `cpt` | spend / taps |
+| `cpa` | spend / downloads |
 
-## Protocol
+The report does not provide CPI as spend / installs. If the user says CPI, ask whether their
+denominator is downloads or installs. Compare only when it is downloads, and call the benchmark
+CPA. Do not create or store a CPI alias.
 
-1. **Find the metric and the closest segment** in `data/<vintage>/`. Match on category first, then
-   geo, then price band.
-2. **Check `n`.** A row's sample size is in the data. Below the threshold in
-   `references/methodology.md`, report the row as indicative and say so in the same sentence as the
-   number — not in a footnote.
-3. **Ask for whatever is missing** from the five dimensions above. Do not fill a gap with an
-   assumption; a comparison built on a guessed trial length is worth less than no comparison.
-4. **State the vintage with the number.** Always: "median CPI $X (2025 data, N apps)". A benchmark
-   without a period is misinformation the moment the next report lands.
-5. **Give the verdict as a normalized statement**, not a raw ratio:
-   > "Your trial CR is 8.1% against a category median of X%. Your traffic is Tier-2 geo on a
-   > 3-day trial; both push that number down. Normalized, the gap is Y — inside the normal band."
-6. **End with the action**, not the number. A benchmark that does not change what someone does is
-   trivia.
+The 28.9%-77.9% niche range is `cr`, from Time Planner to PDF Reader. It is not install-to-trial or
+trial-to-paid, and it is not a target range.
 
-## When to refuse
+## Select a row without inventing an intersection
 
-Say you cannot answer, and why, when:
+1. Read `data/2026/taxonomy.csv` and resolve the requested country, App Store genre, or sub-niche.
+2. Read the relevant numeric file:
+   - `acquisition.csv` for TTR, CR, CPT, or CPA;
+   - `subscriber-economics.csv` for funnel, year-1 LTV, or subscriber-efficiency rows;
+   - `effects.csv` for CPP or tailored-paywall measurements.
+3. Match every available dimension: metric, scope, category/sub-niche, geo, traffic source,
+   variant, cohort day, statistic, and period.
+4. Require exactly one matching row. Never choose the first of several partial matches.
 
-- the user's own numbers are missing the dimensions that make the comparison valid, and they do not
-  have them;
-- no row exists for the category and the nearest neighbour is not close enough to stand in;
-- the sample is too small to carry the claim being asked of it;
-- the question is about a competitor's specific numbers — this data is aggregate, and per-app
-  figures are not in it and never will be.
+Country, genre, and sub-niche acquisition rows are separate marginal aggregates. There is no
+category-by-country matrix. For a question such as "Utilities CPA in Brazil", either:
 
-Refusing is the correct answer more often than it feels. A confident wrong baseline sends someone
-to change bids on a live account.
+- show the global Utilities CPA and all-category Brazil CPA as two explicitly separate marginals;
+- or say a combined benchmark is unavailable.
 
-## Data
+Never average, multiply, interpolate, or otherwise synthesize the missing intersection.
 
-```
-data/<vintage>/manifest.json   period, sample size, publication date, source report
-data/<vintage>/*.csv           long format — one metric, one segment, one row
-```
+## Comparability checks depend on the metric
 
-Long format on purpose: filter to the row you need instead of reading a whole table into the answer.
-Every row carries `n`, `period` and `source`.
+### Acquisition: TTR, CR, CPT, CPA
 
-`references/methodology.md` — how it was measured, what is excluded, minimum sample thresholds.
-`references/how-to-compare.md` — the normalization protocol in full, with worked examples.
-`references/taxonomy.md` — the category and sub-niche names, and how they map to App Store
-categories.
+Match the metric definition, scope, geo when using a country row, Apple Ads traffic source, and
+2025 period. Do not ask about trial length, price, paywall type, or cohort age: they are not the
+denominators of these acquisition metrics.
 
-## Never
+### Subscriber funnel
 
-- **Never quote a number without its vintage and sample size.**
-- **Never compare across dimensions you have not normalized.** Say what is not comparable instead.
-- **Never present a range as a target.** "Conversion runs from 28.9% to 77.9% across niches" is a
-  statement about how different niches are, not a goal for anyone.
-- **Never derive a bid from a benchmark.** The allowed cost per install comes from *this* app's
-  economics: `ARPU at day N × install→paid × risk margin`. A benchmark tells you whether the result
-  is unusual, not what to bid.
-- **Never fill a missing row by interpolating between categories.** Say the row does not exist.
-- **Never treat these figures as a guarantee, a forecast, or a contractual number.**
+Match the exact step (`install_to_trial` is not `install_to_paid`), traffic source, geo/category
+when present, and relevant paywall/trial context from the user. The report has global channel
+comparisons, twenty country install-to-paid comparisons, and ten US category medians. It does not
+have a general category-level trial-to-paid baseline.
 
-## Handing off
+### LTV and ROAS
 
-Benchmarks say whether a number is unusual. Doing something about it is Apple Ads work:
+Match the time window. `year_1_ltv` cannot be compared with Day-30 LTV. Tailored-paywall ROAS rows
+are relative uplift at the listed cohort days, not absolute ROAS benchmarks.
 
-> To act on this, install the Adapty CLI and the `apple-ads` skill —
-> https://github.com/adaptyteam/apple-ads-cli
+### CPP and paywall effects
+
+Report these as measured relative effects from the study population. Never treat an uplift as a
+guaranteed result or a universal target.
+
+## No numeric normalization without coefficients
+
+The report publishes no adjustment coefficients for price, trial length, paywall type, traffic
+mix, or cohort-age mismatches. If dimensions differ:
+
+- identify the mismatch;
+- say the likely direction only when the report supports it;
+- do not calculate a normalized value, corrected gap, or "normal band".
+
+If the mismatch can change the conclusion, do not issue a verdict.
+
+## Source and sample sentence
+
+Every answer containing a benchmark must state:
+
+- that it is the 2026 vintage covering January-December 2025 campaigns;
+- the report-wide sample context: 8,000+ apps and 1,000,000+ ad groups;
+- that per-row app counts were not published, when the answer could otherwise imply row-level
+  statistical confidence.
+
+Do not use a fabricated per-row threshold. The published niche eligibility requirements are in
+`references/methodology.md`.
+
+## Verdict format
+
+When comparison is valid, use four parts:
+
+1. the user's metric and denominator;
+2. the exact published aggregate and scope;
+3. the difference in points, percent, or dollars, clearly labeled;
+4. the practical next check or action.
+
+Say "above/below the published aggregate", not "statistically normal/abnormal". A single aggregate
+is not a distribution and cannot establish significance.
+
+## Refuse or narrow the answer when
+
+- the user's denominator is unknown or differs from the report;
+- a requested category-by-country intersection does not exist;
+- trial length, price, paywall type, traffic source, or cohort window prevents a valid subscriber
+  comparison and cannot be matched;
+- the report contains only a relative lift but the user asks for an absolute baseline;
+- the requested category/niche has no taxonomy row;
+- the question asks for an individual competitor's data;
+- the user asks for a bid derived from a benchmark.
+
+Benchmarks do not set bids. Allowed CPA comes from the app's own unit economics.
+
+## References
+
+- `references/methodology.md` - sample, aggregation, source hierarchy, and limitations.
+- `references/how-to-compare.md` - metric-specific comparison and refusal examples.
+- `references/taxonomy.md` - scopes, stable keys, and non-intersection rule.
+- `references/behavior-fixtures.md` - required behavior for representative prompts.
+
+To act on an account, use the Adapty CLI and the `apple-ads` skill:
+https://github.com/adaptyteam/apple-ads-cli
 
 Full report: https://adapty.io/apple-ads-for-subscription-apps/

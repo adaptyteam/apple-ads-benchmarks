@@ -1,6 +1,0 @@
-metric,category,geo,segment,day,stat,value,unit,n,period,source,note
-cumulative_arpu,utilities,global,all,7,median,TODO,usd,,2025,report-2026,Extract from source report
-cumulative_arpu,utilities,global,all,30,median,TODO,usd,,2025,report-2026,Extract from source report
-cumulative_arpu,utilities,global,all,90,median,TODO,usd,,2025,report-2026,Extract from source report
-cumulative_arpu,health-fitness,global,all,30,median,TODO,usd,,2025,report-2026,Extract from source report
-retained_share,utilities,global,all,30,median,TODO,percent,,2025,report-2026,Extract from source report

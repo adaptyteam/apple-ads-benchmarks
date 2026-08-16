@@ -1,7 +1,0 @@
-metric,category,geo,segment,stat,value,unit,n,period,source,note
-conversion_unspecified,all,global,all,range_low,28.9,percent,,2025,report-2026,"Report states conversion ranges 28.9%-77.9% across niches; WHICH conversion step is not stated on the public page - resolve from source/ before using"
-conversion_unspecified,all,global,all,range_high,77.9,percent,,2025,report-2026,"See range_low note - do not use as a target, this is a spread across niches"
-trial_cr,utilities,global,all,median,TODO,percent,,2025,report-2026,Extract from source report
-trial_cr,health-fitness,global,all,median,TODO,percent,,2025,report-2026,Extract from source report
-trial_to_paid,utilities,global,all,median,TODO,percent,,2025,report-2026,Extract from source report
-trial_to_paid,health-fitness,global,all,median,TODO,percent,,2025,report-2026,Extract from source report

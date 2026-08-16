@@ -1,17 +1,90 @@
 {
+  "schema_version": 2,
   "vintage": "2026",
-  "report": "Apple Ads benchmarks 2026: CPI & CR by niche",
+  "report": "Apple Ads for subscription apps 2026",
   "report_url": "https://adapty.io/apple-ads-for-subscription-apps/",
-  "data_period": "2025 campaigns",
+  "data_period": {
+    "start": "2025-01-01",
+    "end": "2025-12-31",
+    "label": "2025 campaigns"
+  },
   "published": "2026",
+  "publisher": "Adapty",
   "sample": {
     "apps": "8000+",
     "ad_groups": "1000000+",
     "countries": 90,
-    "sub_niches": 59
+    "app_store_genres_in_workbook": 22,
+    "sub_niches": 59,
+    "row_sample_sizes_published": false
   },
-  "publisher": "Adapty",
-  "extraction_status": "partial",
-  "extraction_note": "Headline figures transcribed from the public report page. The per-niche and per-country tables still need extracting from source/ into the CSVs — every row with value=TODO is unextracted.",
-  "min_sample_for_verdict": 100
+  "niche_eligibility": {
+    "minimum_apps": 2,
+    "minimum_impressions": 200000,
+    "minimum_downloads": 1000,
+    "minimum_annual_spend_per_app_usd": 10000
+  },
+  "coverage": {
+    "matrix_metrics": [
+      "ttr",
+      "cr",
+      "cpt",
+      "cpa"
+    ],
+    "scopes": {
+      "country": 90,
+      "app_store_genre": 22,
+      "sub_niche": 59
+    },
+    "category_country_intersections_available": false,
+    "category_country_intersections_note": "Applies to the acquisition matrix. Subscriber economics separately includes the PDF's US-only category install-to-paid table."
+  },
+  "rounding": {
+    "country_ttr_percentage_points": 1,
+    "country_cr_percentage_points": 2,
+    "country_cpt_usd": 3,
+    "country_cpa_usd": 2,
+    "app_store_genre_ttr_percentage_points": 1,
+    "app_store_genre_cr_percentage_points": 2,
+    "app_store_genre_cpt_cpa_usd": 2,
+    "sub_niche_ttr_cr_percentage_points": 1,
+    "sub_niche_cpt_cpa_usd": 2,
+    "other_metrics": "As printed in the PDF"
+  },
+  "sources": {
+    "report-2026": {
+      "filename": "apple_ads_for_subscription_apps_2026.pdf",
+      "sha256": "ad98f7739a199ff1f73bb0602b7fe8e488ff1644ba7908118c20408deced818e",
+      "role": "Primary source for metric definitions, publication scope, methodology, printed values, and rounding",
+      "redistributed": false,
+      "url": "https://adapty.io/apple-ads-for-subscription-apps/"
+    },
+    "workbook-2026": {
+      "filename": "ASA benchmarks 2026.xlsx",
+      "sha256": "30549bd40e81ddd0f5cd40c16bb818ba10c037fbc05c74c0001c1fb3d2661c7f",
+      "role": "Exact aggregate matrix values before PDF-style rounding; never overrides a printed PDF value",
+      "redistributed": false
+    }
+  },
+  "datasets": {
+    "acquisition.csv": {
+      "rows": 690,
+      "matrix_rows": 684,
+      "summary_rows": 6
+    },
+    "subscriber-economics.csv": {
+      "rows": 119
+    },
+    "effects.csv": {
+      "rows": 20
+    },
+    "taxonomy.csv": {
+      "rows": 96,
+      "report_categories": 15,
+      "app_store_genres": 22,
+      "sub_niches": 59
+    }
+  },
+  "extraction_status": "complete",
+  "extraction_note": "Only derived CSV/JSON is published. Source PDF/XLSX files and raw impressions, taps, downloads, and spend are excluded."
 }

@@ -1,10 +1,20 @@
-# Source material
+# Non-redistributed source material
 
-Put the published report PDF here as `2026-apple-ads-benchmarks.pdf`, so every figure in
-`data/` can be traced back to a page.
+The published PDF and companion workbook are audit inputs, not repository or plugin assets. Keep
+local copies outside this repository. `.gitignore` also rejects accidental copies under `source/`.
 
-Only material cleared for public release goes in this repository. Extraction from the PDF into
-`data/*.csv` is manual and reviewed — do not automate it into the build, because a mis-parsed table
-becomes a confident wrong benchmark that someone changes live bids on.
+The expected sources are recorded in `data/2026/manifest.json`:
+
+- `apple_ads_for_subscription_apps_2026.pdf` — definitions, scope, methodology, printed values,
+  and published rounding;
+- `ASA benchmarks 2026.xlsx` — complete aggregate matrix values before PDF-style rounding.
+
+The manifest records each basename and SHA-256. Verify those hashes before a manual re-extraction.
+If a value printed in the PDF differs from the workbook after applying published rounding, the PDF
+wins.
+
+Extraction is a one-off, manually reviewed release task. It is deliberately absent from build and
+CI. Only derived CSV/JSON may be committed; never commit or bundle the source files or raw
+impressions, taps, downloads, and spend.
 
 Public report: https://adapty.io/apple-ads-for-subscription-apps/

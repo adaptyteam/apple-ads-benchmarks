@@ -1,73 +1,71 @@
-# The normalization protocol
+# How to compare a user's metric
 
-## Why this file is longer than the data
+## 1. Establish the denominator
 
-A benchmark table is a commodity. The reason a comparison is usually wrong is that the two numbers
-describe different populations, and nothing in the table warns you.
+Translate the user's term into the report definition before looking up a row:
 
-## The five dimensions
+- TTR = taps / impressions;
+- CR = downloads / taps on the App Store product page;
+- CPT = spend / taps;
+- CPA = spend / downloads.
 
-Resolve all five before any verdict. If one is unknown, ask; if it stays unknown, say the
-comparison is not possible rather than producing one with a caveat attached.
+If the user says CPI, ask whether they mean spend/downloads or spend/installs. The report publishes
+the first and calls it CPA; it does not publish the second. Do not silently rename CPA to CPI.
 
-### 1. Geo
+Example: PDF Reader CR is 77.9%. This means 77.9 downloads per 100 product-page taps in the
+published sub-niche aggregate. It says nothing about trial starts or paid subscriptions.
 
-Acquisition cost varies by more than an order of magnitude between markets. A global median against
-US-only traffic is not a comparison; it is a category error.
+## 2. Match only dimensions that matter to the metric
 
-- If the user's spend is concentrated in one market, compare against that market's row or say there
-  is none.
-- If it is spread, weight by spend — not by installs, and not evenly.
+For TTR, CR, CPT, and CPA, match scope, requested geo, Apple Ads traffic, and period. Trial length,
+price, and paywall type are downstream and are not acquisition denominators.
 
-### 2. Price and trial length
+For subscriber funnel metrics, additionally match the exact funnel step and the relevant
+paywall/trial context. `install_to_trial` and `install_to_paid` are not interchangeable.
 
-Trial conversion is largely a function of trial length and price before it is a function of app
-quality. A 3-day trial converts differently from a 7-day trial by construction.
+For LTV and ROAS, match cohort age. Year-1 LTV is not a Day-30 benchmark. Tailored-paywall ROAS in
+this dataset is relative uplift, not an absolute default or custom ROAS value.
 
-Never compare a trial CR across different trial lengths without saying which direction the
-difference pushes.
+For CPP and paywall studies, describe the measured relative effect and study scope. Do not turn it
+into a universal target or guaranteed result.
 
-### 3. Traffic source
+## 3. Keep marginal cuts separate
 
-Organic, Apple Ads and other paid channels convert differently. The report's figures describe Apple
-Ads traffic. Comparing them against a user's blended number will make paid traffic look worse than
-it is, every time.
+For "Utilities in Brazil", the source has no combined row. A valid answer can show:
 
-### 4. Cohort age
+- the global Utilities genre or relevant sub-niche aggregate; and
+- the all-category Brazil aggregate.
 
-Day-30 revenue against day-90 revenue is a difference in elapsed time, not in performance. Match the
-window, or say the windows do not match.
+Label them as two independent marginals. Never average, multiply, or otherwise synthesize them into
+a Utilities-in-Brazil benchmark. If the user needs one verdict, say that it is unavailable.
 
-For a monthly subscription, a day-7 number is entirely pre-renewal and always looks like a loss —
-that is not a finding.
+## 4. Do not manufacture normalization
 
-### 5. Paywall type
+The report contains no adjustment coefficients for trial length, subscription price, paywall type,
+or traffic mix. Qualitatively name a relevant mismatch when supported, but do not calculate a
+corrected value or "normal band". If the mismatch can reverse the conclusion, withhold the verdict.
 
-Hard and soft paywalls give every downstream rate a different denominator. A soft paywall's
-install→trial rate is not comparable to a hard paywall's.
+## 5. Phrase the result narrowly
 
-## Worked example
+A valid comparison should contain:
 
-> **User:** our trial conversion is 8.1%, is that bad?
->
-> **Wrong:** "The benchmark is 12%, so you are underperforming."
->
-> **Right:** "Which markets is that traffic from, how long is your trial, and is that Apple Ads
-> traffic or blended? — Given Tier-2 markets on a 3-day trial from Apple Ads: the category median
-> is X% (2025 data, N apps), but that median is a 7-day-trial, mixed-geo population. Both of your
-> differences push the number down. Normalized, 8.1% sits inside the normal band. The number worth
-> looking at instead is trial→paid, where your geo mix matters much less."
+1. the user's metric and denominator;
+2. the published aggregate, its exact scope, and the 2026 vintage covering 2025;
+3. the arithmetic difference, clearly labeled;
+4. the next diagnostic step.
 
-The right answer asks two questions, quotes the vintage, names the direction of each difference, and
-ends by pointing at a more useful metric.
+Say "above/below the published aggregate". Do not say statistically significant, normal, or
+abnormal: the public data contains aggregates, not the row-level distribution needed for those
+claims.
 
-## The verdict sentence
+Include the report-wide sample of 8,000+ apps and 1,000,000+ ad groups. When confidence could be
+misread, add that per-row app counts were not published.
 
-Always the same four parts:
+## Refusal examples
 
-1. the user's number,
-2. the benchmark, with vintage and sample,
-3. which dimensions differ and in which direction,
-4. the normalized conclusion — and what to do about it.
-
-Drop part 3 and the sentence becomes misinformation.
+- Weekly trial-to-paid baseline: unavailable; the report has no matching published baseline.
+- Absolute custom-paywall ROAS: unavailable; only relative uplift is published.
+- A bid recommendation from a country CPA: refuse; allowed CPA must come from the app's own unit
+  economics.
+- A requested category-by-country aggregate: unavailable as a single benchmark; offer the two
+  marginals instead.
