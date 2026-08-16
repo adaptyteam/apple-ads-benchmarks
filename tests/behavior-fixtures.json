@@ -1,0 +1,26 @@
+[
+  {
+    "id": "pdf-reader-cr-denominator",
+    "query": "What is the conversion rate benchmark for PDF Reader?",
+    "expected": ["77.9%", "downloads", "taps", "sub_niche"],
+    "forbidden": ["install_to_trial", "trial_to_paid"]
+  },
+  {
+    "id": "utilities-brazil-no-intersection",
+    "query": "What is the Utilities benchmark in Brazil?",
+    "expected": ["no combined row", "two independent marginals"],
+    "forbidden": ["synthesized intersection", "single blended benchmark"]
+  },
+  {
+    "id": "weekly-trial-to-paid-unavailable",
+    "query": "What is the weekly-trial to paid benchmark?",
+    "expected": ["matching baseline is not published"],
+    "forbidden": ["substitute install_to_paid", "substitute install_to_trial"]
+  },
+  {
+    "id": "cpi-denominator-clarification",
+    "query": "What is the Apple Ads CPI benchmark?",
+    "expected": ["CPA", "spend/downloads", "spend/installs"],
+    "forbidden": ["silently return CPA under a CPI label"]
+  }
+]

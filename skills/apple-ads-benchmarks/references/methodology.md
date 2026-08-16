@@ -1,39 +1,67 @@
-# Methodology
+# Methodology and provenance
 
-## What the data is
+## Source hierarchy
 
-Aggregate figures from subscription apps running Apple Ads, measured through Adapty. See
-`data/<vintage>/manifest.json` for the exact sample and period of the vintage you are quoting.
+The 2026 PDF is authoritative for metric definitions, scope, methodology, printed values, and
+published rounding. The companion workbook fills the country, primary App Store genre, and
+sub-niche matrices where the PDF does not print every row. A workbook value never overrides a PDF
+value after both are rounded as the PDF presents that metric.
 
-The 2026 vintage covers **2025 campaigns**: 8,000+ apps, 1,000,000+ ad groups, 90 countries,
-59 sub-niches.
+`data/2026/manifest.json` records each non-redistributed source's basename, SHA-256, and role. Every
+numeric row has a PDF locator. When its value comes from the workbook, it also has an exact locator
+such as `all_by_country!A44:I44` in `value_source_locator`.
 
-## What it is not
+Only derived CSV/JSON is distributed. The source PDF and workbook, as well as raw impressions,
+taps, downloads, and spend, are excluded from the repository and plugin bundle.
 
-- **Not per-app.** No competitor's individual numbers are in here, and no aggregate can be reversed
-  into one.
-- **Not a forecast.** Past medians across other apps say nothing certain about this app's next
-  month.
-- **Not a target.** A median is the middle of a distribution, not a goal. Half the sample is below
-  it by definition, and many of those apps are profitable.
-- **Not Apple's data.** Apple publishes no benchmarks. Spend-side metrics come from the Apple Ads
-  API; revenue-side metrics come from subscription events. That is exactly why revenue benchmarks
-  exist here and nowhere else.
+## Period and report-wide sample
 
-## Sample thresholds
+The 2026 vintage covers campaigns from January through December 2025. The report-wide sample is
+8,000+ subscription apps and 1,000,000+ Apple Ads ad groups across 90 countries.
 
-| `n` | How to report it |
-|---|---|
-| ≥ `min_sample_for_verdict` in the manifest | Quote normally, with vintage |
-| below it | Quote as indicative, and say so in the same sentence as the number |
-| empty | The figure is a published headline without a per-row sample size — attribute it to the report and do not build a verdict on it alone |
+The published niche eligibility requirements are:
 
-## Known gaps in this vintage
+- at least 2 apps;
+- at least 200,000 impressions;
+- at least 1,000 downloads;
+- at least $10,000 annual Apple Ads spend per app.
 
-- Per-niche and per-country tables are **not yet extracted**; those rows carry `value=TODO`.
-- The `conversion_unspecified` rows record a published range whose exact conversion step is not
-  stated on the public page. Resolve it from the source report before using it for anything.
-- LTV curves are stubbed pending extraction.
+These are inclusion rules, not row-level sample sizes or significance thresholds. The PDF does not
+publish the number of apps behind each row, so `n` remains empty. Never infer it, substitute a
+minimum, or claim a row-level confidence level.
 
-A `TODO` row means "we have not extracted this yet", never "this is zero" and never "we do not
-know". Say which one it is.
+## Aggregation and available cuts
+
+The acquisition matrix contains four metrics for each of 90 countries, 22 primary App Store
+genres, and 59 report sub-niches. These are three separate marginal cuts. The source does not
+contain category-by-country or niche-by-country intersections.
+
+Published medians, P75 values, and weighted averages are separate `scope=overall` rows. Do not
+derive a median from the rounded public rows and do not treat a weighted average as a median.
+
+Subscriber economics and effect studies have the scopes printed in the PDF. They do not imply the
+same country/genre/niche matrix as the acquisition metrics.
+
+## Rounding
+
+Workbook-backed values are saved at PDF display precision:
+
+- country TTR: one decimal percentage point; country CR: two; country CPT: three dollars;
+- country CPA: two dollars;
+- genre TTR: one decimal percentage point; genre CR: two; genre CPT/CPA: two dollars;
+- sub-niche TTR and CR: one decimal percentage point; sub-niche CPT/CPA: two dollars;
+- subscriber and effect metrics: exactly the precision printed in the PDF.
+
+Because CPA, CPT, and CR are independently rounded, `CPA = CPT / (CR / 100)` is approximate in the
+public files.
+
+## Limitations
+
+- The figures are aggregates, not competitor or per-app data.
+- A benchmark is historical context, not a forecast, bid, target, or statistical significance
+  test.
+- No numerical adjustment coefficients are published for trial length, price, paywall type, or
+  traffic mix.
+- The report does not publish category-level trial-to-paid baselines, LTV curves by every segment,
+  or absolute default/custom paywall ROAS.
+- Tailored-paywall effect rows are relative uplift only.

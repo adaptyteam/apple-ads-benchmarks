@@ -1,22 +1,36 @@
-# Category taxonomy
+# Taxonomy and stable keys
 
-Rows in `data/` key on `category`. Values are lowercase kebab-case.
+`data/2026/taxonomy.csv` is the authoritative label-to-key map. Resolve labels through it instead
+of inventing slugs in an answer or integration.
 
-| Key | App Store category | Notes |
-|---|---|---|
-| `all` | — | whole-sample figures |
-| `utilities` | Utilities | remote controls, VPN, scanners, cleaners |
-| `health-fitness` | Health & Fitness | |
-| `photo-video` | Photo & Video | includes AI editors |
-| `education` | Education | includes language learning |
+It contains three independently usable entity scopes:
 
-> **Incomplete.** The 2026 report covers 59 sub-niches; the table above lists only the keys used by
-> rows already in `data/`. Extend it as rows are extracted, and keep the keys stable — a vertical
-> guide in `apple-ads-cli` references them through its `benchmarks:` frontmatter field, so renaming
-> a key silently breaks that link.
+| Scope | Rows | Purpose |
+|---|---:|---|
+| `app_store_genre` | 22 | Primary App Store genres from the workbook |
+| `report_category` | 15 | The 14 PDF category families plus one explicit unclassified bucket |
+| `sub_niche` | 59 | Report niches used by the acquisition matrix |
+
+The `parent_key` on a sub-niche points to a report category. The workbook tag `Apps` is not assigned
+to a category on the PDF taxonomy page, so it is kept under `unclassified`; no parent was inferred.
+
+Existing public keys remain stable, including `utilities`, `health-fitness`, `photo-video`, and
+`education`. Keys are lowercase kebab-case. The singular `photo-video` key is intentionally kept
+even when a source label uses an ampersand.
+
+Country rows use ISO 3166-1 alpha-2 codes in `geo`. Countries are not duplicated into this taxonomy
+file.
+
+## No compound taxonomy
+
+Country, App Store genre, and sub-niche acquisition rows are separate marginal aggregates. The
+acquisition matrix has no category-by-country or niche-by-country rows. A consumer must never build
+a compound acquisition key or synthesize an intersection. Subscriber economics is a separate
+dataset and includes the PDF's explicitly scoped US-only category install-to-paid medians; those
+rows must not be reused as acquisition benchmarks.
 
 ## Contract with apple-ads-cli
 
-Vertical guides declare `benchmarks: <key>` in frontmatter. That key, plus the column names in
-`data/*.csv`, is the **public interface** of this repository. File paths and directory layout are
-not — reorganize freely, but never rename a key or a column without a migration.
+Vertical guides may declare `benchmarks: <key>` in frontmatter. That key and the public CSV columns
+form the integration contract. Renaming a key requires an explicit migration; display labels may be
+updated without changing the key.

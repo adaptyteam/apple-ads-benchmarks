@@ -1,10 +1,10 @@
 {
   "name": "apple-ads-benchmarks",
-  "version": "0.1.0",
-  "description": "Apple Ads benchmarks for subscription apps — CPI, CPT, conversion and ROAS by niche and country, with a normalization protocol that stops bad comparisons.",
+  "version": "0.2.0",
+  "description": "Apple Ads benchmarks for subscription apps: TTR, CR, CPT and CPA by country, App Store genre and niche, plus subscriber economics and relative effect studies.",
   "author": { "name": "Adapty", "email": "support@adapty.io" },
   "homepage": "https://adapty.io/apple-ads-for-subscription-apps/",
   "repository": "https://github.com/adaptyteam/apple-ads-benchmarks",
   "license": "MIT",
-  "keywords": ["apple-ads", "benchmarks", "cpi", "roas", "subscriptions", "user-acquisition"]
+  "keywords": ["apple-ads", "benchmarks", "ttr", "cr", "cpt", "cpa", "roas", "subscriptions", "user-acquisition"]
 }
